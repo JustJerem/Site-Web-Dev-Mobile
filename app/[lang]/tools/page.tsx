@@ -2,10 +2,12 @@ import { content } from "@/data/content";
 import { ArrowLeft, CornerDownRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { getDictionary } from "@/dictionaries/get-dictionary";
+import { Locale } from "@/i18n-config";
 
 interface Tool {
   name: string;
-  description: string;
+  descriptionKey: keyof typeof import('@/dictionaries/en').en.tools;
   icon: React.ReactNode; 
   url: string;
 }
@@ -13,71 +15,78 @@ interface Tool {
 const tools: Tool[] = [
   {
     name: "Firebase",
-    description: "The backend I use",
+    descriptionKey: "firebase_desc",
     icon: <Image src="/icons/firebase.svg" alt="Firebase" width={48} height={48} className="w-7 h-7" />,
     url: "https://firebase.google.com/",
   },
   {
     name: "Appwrite",
-    description: "Another backend I use",
+    descriptionKey: "appwrite_desc",
     icon: <Image src="/icons/appwrite.png" alt="Appwrite" width={48} height={48} className="w-7 h-7" />,
     url: "https://appwrite.io/",
   },
   {
     name: "Mixpanel",
-    description: "The analytics platform I use",
+    descriptionKey: "mixpanel_desc",
     icon: <Image src="/icons/mixpanel.svg" alt="Mixpanel" width={48} height={48} className="w-7 h-7" />,
     url: "https://mixpanel.com/",
   },
   {
     name: "OpenRouter",
-    description: "The service I use to call LLMs",
+    descriptionKey: "openrouter_desc",
     icon: <Image src="/icons/openrouter.svg" alt="OpenRouter" width={48} height={48} className="w-7 h-7" />,
     url: "https://openrouter.ai/",
   },
   {
     name: "Vercel",
-    description: "The service I use to host frontend websites",
-    icon: <Image src="/icons/vercel.svg" alt="Vercel" width={48} height={48} className="w-6 h-6" />, // No invert needed on white bg
+    descriptionKey: "vercel_desc",
+    icon: <Image src="/icons/vercel.svg" alt="Vercel" width={48} height={48} className="w-6 h-6" />, 
     url: "https://vercel.com/",
   },
   {
     name: "RevenueCat",
-    description: "The service I use for in-app subscriptions",
+    descriptionKey: "revenuecat_desc",
     icon: <Image src="/icons/revenuecat.jpeg" alt="RevenueCat" width={48} height={48} className="w-7 h-7 rounded-sm" />,
     url: "https://www.revenuecat.com/",
   },
   {
     name: "Android", 
-    description: "The OS I build most of my apps for",
+    descriptionKey: "android_desc",
     icon: <Image src="/icons/android.svg" alt="Android" width={48} height={48} className="w-8 h-8" />,
     url: "https://developer.android.com/",
   },
   {
     name: "KMP",
-    description: "The framework I use for cross-platform logic",
+    descriptionKey: "kmp_desc",
     icon: <Image src="/icons/kmp.svg" alt="KMP" width={48} height={48} className="w-7 h-7" />,
     url: "https://kotlinlang.org/lp/multiplatform/",
   },
   {
     name: "Swift",
-    description: "The framework I use for iOS apps",
+    descriptionKey: "swift_desc",
     icon: <Image src="/icons/swift.svg" alt="Swift" width={48} height={48} className="w-7 h-7" />,
     url: "https://www.swift.org/",
   },
 ];
 
-export default function ToolsPage() {
+export default async function ToolsPage({
+  params,
+}: {
+  params: Promise<{ lang: Locale }>;
+}) {
+  const { lang } = await params;
+  const dictionary = await getDictionary(lang);
+
   return (
     <main className="min-h-screen bg-background py-20 selection:bg-primary/20">
       <div className="container mx-auto max-w-2xl px-6">
         {/* Back Link */}
         <Link
-          href="/"
+          href={`/${lang}`}
           className="group mb-12 inline-flex items-center text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-zinc-300"
         >
           <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-          Back to home
+          {dictionary.tools.back_home}
         </Link>
 
         {/* Header Avatar */}
@@ -95,7 +104,7 @@ export default function ToolsPage() {
 
         {/* Title */}
         <div className="mb-10 text-2xl font-light tracking-tight text-zinc-900 dark:text-zinc-50">
-          Things that power my apps
+          {dictionary.tools.title}
         </div>
 
         {/* Tools List */}
@@ -119,7 +128,7 @@ export default function ToolsPage() {
                 <div className="space-y-1">
                     <div className="flex items-start gap-2 text-zinc-500 dark:text-zinc-400 font-light">
                         <CornerDownRight className="h-4 w-4 shrink-0 translate-y-1 opacity-50" />
-                        <span>{tool.description}</span>
+                        <span>{dictionary.tools[tool.descriptionKey as keyof typeof dictionary.tools]}</span>
                     </div>
                 </div>
               </div>

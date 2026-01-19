@@ -1,6 +1,6 @@
 export const content = {
   personal: {
-    name: "Jeremie Guillot",
+    name: "Jérémie Guillot",
     role: "Freelance Mobile Developer",
     location: "Lyon, France", // Assumed from context
     bio: "Passionate Mobile Developer with extensive experience in building high-quality mobile applications. Expert in Kotlin, Swift, and modern mobile development practices.",
