@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../globals.css";
-import { i18n, type Locale } from "@/i18n-config";
+import { i18n } from "@/i18n-config";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -22,7 +22,7 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ lang: Locale }>;
+  params: Promise<{ lang: string }>;
 }>) {
   const { lang } = await params;
   return (

@@ -72,10 +72,10 @@ const tools: Tool[] = [
 export default async function ToolsPage({
   params,
 }: {
-  params: Promise<{ lang: Locale }>;
+  params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params;
-  const dictionary = await getDictionary(lang);
+  const dictionary = await getDictionary(lang as Locale);
 
   return (
     <main className="min-h-screen bg-background py-20 selection:bg-primary/20">
